@@ -12,12 +12,19 @@ const controller = {
         $('body').empty();
         $('body').append(data);
         const dates = $('.day');
+
+        const photoElements = $('.u-photo img');
+        let pictureUrl = '';
+        photoElements.map(function() {
+            pictureUrl = $(this).attr('src');
+        });
+
         const dateContributions = [];
         dates.map(function() {
             dateContributions.push($(this).attr('data-count'));
         });
         const dateContributionsNumbers = dateContributions.map(d => parseInt(d));
-        return githubService.extractDataFromContributions(dateContributionsNumbers);
+        return githubService.extractDataFromContributions(pictureUrl, dateContributionsNumbers);
     },
     addUsername(username, data) {
         return { username, data };

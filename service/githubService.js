@@ -11,7 +11,7 @@ const githubService = {
 
         return responce.text();
     },
-    extractDataFromContributions: (dateContributionsNumbers) => {
+    extractDataFromContributions: (pictureUrl, dateContributionsNumbers) => {
         let totalContributionsCount = 0;
         let daysWithoutContributions = 0;
         let conclussiveContributions = 0;
@@ -42,7 +42,8 @@ const githubService = {
             }
         });
 
-        return { 
+        return {
+            pictureUrl,
             totalContributionsCount,
             daysWithoutContributions,
             conclussiveContributions,
