@@ -17,7 +17,13 @@ const attach = (app) => {
         })
         .get('/contributions/:username', async (req, res) => {
             const username = req.params.username;
-            const data = await controller.getUserContributions(username);
+            const year = req.query.year;
+            let data;
+            if(year) {
+                data = await controller.getUserContributionsForYear(username, year);
+            } else {
+                data = await controller.getUserContributions(username);
+            }
             const result = controller.addUsername(username, data);
             res.send(result);
         });
