@@ -26,6 +26,13 @@ const controller = {
         const dateContributionsNumbers = dateContributions.map(d => parseInt(d));
         return githubService.extractDataFromContributions(pictureUrl, dateContributionsNumbers);
     },
+
+    getUserContributionsForYear: async (username, year) => {
+        const data = await githubService.getGithubAccountPage(username);
+        $('body').empty();
+        $('body').append(data);
+        const dates = $('.day');
+    },
     addUsername(username, data) {
         return { username, data };
     },

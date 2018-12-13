@@ -2,9 +2,17 @@ const fetch = require('isomorphic-fetch');
 const githubUrl = "https://github.com/";
 
 const githubService = {
-    getGithubAccountPage: async (account) => {
-        const responce = await fetch(githubUrl + account);
+    getGithubAccountPage: async function(account) {
+        const data = await this.fetchData(githubUrl + account);
+        return data;  
+    },
 
+    getGithubAccountPageFromYear: async (account, year) => {
+
+    },
+
+    fetchData: async(url) => {
+        const responce = await fetch(url);
         if(!responce.ok) {
             throw Error('Couldn\'t connect to github');
         }
