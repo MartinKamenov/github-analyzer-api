@@ -7,8 +7,11 @@ const githubService = {
         return data;  
     },
 
-    getGithubAccountPageFromYear: async (account, year) => {
-
+    getGithubAccountPageFromYear: async function(account, year) {
+        const queryParam = "?";
+        queryParam += `tab=overview&from=${year}-12-01&to=${year}-12-31`;
+        const data = await this.fetchData(githubUrl + account + queryParam);
+        return data;  
     },
 
     fetchData: async(url) => {

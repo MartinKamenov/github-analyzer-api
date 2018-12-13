@@ -7,8 +7,17 @@ const $ = jQuery = require('jquery')(window);
 const githubService = require('../../service/githubService');
 
 const controller = {
-    getUserContributions: async (username) => {
+    getUserContributions: async function(username) {
         const data = await githubService.getGithubAccountPage(username);
+        return this.extractInfoFromData(data);
+    },
+
+    getUserContributionsForYear: async function(username, year) {
+        const data = await githubService.getGithubAccountPageFromYear(username, year);
+        return this.extractInfoFromData(data);
+    },
+
+    extractInfoFromData: function(data) {
         $('body').empty();
         $('body').append(data);
         const dates = $('.day');
@@ -25,13 +34,6 @@ const controller = {
         });
         const dateContributionsNumbers = dateContributions.map(d => parseInt(d));
         return githubService.extractDataFromContributions(pictureUrl, dateContributionsNumbers);
-    },
-
-    getUserContributionsForYear: async (username, year) => {
-        const data = await githubService.getGithubAccountPage(username);
-        $('body').empty();
-        $('body').append(data);
-        const dates = $('.day');
     },
     addUsername(username, data) {
         return { username, data };
