@@ -6,8 +6,15 @@ const attach = (app) => {
         .get('/contributions/:firstusername/:secondusername', async (req, res) => {
             const firstUsername = req.params.firstusername;
             const secondUsername = req.params.secondusername;
-            const firstUsernameContributions = await controller.getUserContributions(firstUsername);
-            const secondUsernameContributions = await controller.getUserContributions(secondUsername);
+            const year = req.query.year;
+            let firstUsernameContributions, secondUsernameContributions;
+            if(year) {
+                firstUsernameContributions = await controller.getUserContributionsForYear(firstUsername, year);
+                secondUsernameContributions = await controller.getUserContributionsForYear(secondUsername, year);
+            } else {
+                firstUsernameContributions = await controller.getUserContributions(firstUsername);
+                secondUsernameContributions = await controller.getUserContributions(secondUsername);
+            }
             const firstUserResults = controller.addUsername(firstUsername, firstUsernameContributions);
             const secondUserResults = controller.addUsername(secondUsername, secondUsernameContributions);
             const result = controller.parsePofilesToArray(

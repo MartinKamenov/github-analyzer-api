@@ -11,7 +11,7 @@ const githubService = {
         let queryParam = "?";
         queryParam += `tab=overview&from=${year}-12-01&to=${year}-12-31`;
         const data = await this.fetchData(githubUrl + account + queryParam);
-        return data;  
+        return data;
     },
 
     fetchData: async(url) => {
