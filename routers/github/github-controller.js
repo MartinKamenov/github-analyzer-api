@@ -25,11 +25,18 @@ const controller = {
     extractRepositoryInfoFromData: function(data) {
         $('body').empty();
         $('body').append(data);
-        const contributionElements = $('[itemprop="name codeRepository"]');
+        const repositoryElements = $('[itemprop="name codeRepository"]');
         const repositories = [];
-        contributionElements.map(function() {
+        repositoryElements.map(function() {
             const name = $(this).text().replace('\n', '').replace(/\s/g, '');
             repositories.push({name});
+        });
+
+        const repositoryLanguages = $('[itemprop="programmingLanguage"]');
+        repositoryLanguages.map(function(index) {
+            const fullLanguage = $(this).parent().text().replace(/\s/g, '');
+            const language = fullLanguage.substring(0, fullLanguage.indexOf('Updated'));
+            repositories[index].programmingLanguage = language;
         });
 
         return repositories;
