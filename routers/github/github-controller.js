@@ -9,15 +9,20 @@ const githubService = require('../../service/githubService');
 const controller = {
     getUserContributions: async function(username) {
         const data = await githubService.getGithubAccountPage(username);
-        return this.extractInfoFromData(data);
+        return this.extractContributionInfoFromData(data);
     },
 
     getUserContributionsForYear: async function(username, year) {
         const data = await githubService.getGithubAccountPageFromYear(username, year);
-        return this.extractInfoFromData(data);
+        return this.extractContributionInfoFromData(data);
     },
 
-    extractInfoFromData: function(data) {
+    getUserRepositoriesInformation: async function(username) {
+        const data = await githubService.getUserRepositoriesInformation(username);
+        return data;
+    },
+
+    extractContributionInfoFromData: function(data) {
         $('body').empty();
         $('body').append(data);
         const dates = $('.day');

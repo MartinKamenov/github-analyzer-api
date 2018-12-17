@@ -4,12 +4,18 @@ const githubUrl = "https://github.com/";
 const githubService = {
     getGithubAccountPage: async function(account) {
         const data = await this.fetchData(githubUrl + account);
-        return data;  
+        return data;
     },
 
     getGithubAccountPageFromYear: async function(account, year) {
         let queryParam = "?";
         queryParam += `tab=overview&from=${year}-12-01&to=${year}-12-31`;
+        const data = await this.fetchData(githubUrl + account + queryParam);
+        return data;
+    },
+
+    getUserRepositoriesInformation: async function(account) {
+        const queryParam = "?tab=repositories";
         const data = await this.fetchData(githubUrl + account + queryParam);
         return data;
     },

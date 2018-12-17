@@ -33,6 +33,11 @@ const attach = (app) => {
             }
             const result = controller.addUsername(username, data);
             res.send(result);
+        })
+        .get('/repositories/:username', async (req, res) => {
+            const username = req.params.username;
+            const data = await controller.getUserRepositoriesInformation(username);
+            res.send(data);
         });
     app.use('/github', router);
 };
