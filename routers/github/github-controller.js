@@ -19,7 +19,20 @@ const controller = {
 
     getUserRepositoriesInformation: async function(username) {
         const data = await githubService.getUserRepositoriesInformation(username);
-        return data;
+        return this.extractRepositoryInfoFromData(data);
+    },
+
+    extractRepositoryInfoFromData: function(data) {
+        $('body').empty();
+        $('body').append(data);
+        const contributionElements = $('[itemprop="name codeRepository"]');
+        const repositories = [];
+        contributionElements.map(function() {
+            const name = $(this).text().replace('\n', '').replace(/\s/g, '');
+            repositories.push({name});
+        });
+
+        return repositories;
     },
 
     extractContributionInfoFromData: function(data) {
