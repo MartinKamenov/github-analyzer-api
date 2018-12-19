@@ -37,7 +37,8 @@ const attach = (app) => {
         .get('/repositories/:username', async (req, res) => {
             const username = req.params.username;
             const data = await controller.getUserRepositoriesInformation(username);
-            res.send(data);
+            const result = controller.addUsername(username, data);
+            res.send(result);
         });
     app.use('/github', router);
 };

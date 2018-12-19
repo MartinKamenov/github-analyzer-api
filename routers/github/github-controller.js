@@ -42,7 +42,7 @@ const controller = {
             repositoriesInfo[index].programmingLanguage = language;
         });
 
-        return repositoriesInfo;
+        return githubService.extractDataFromRepositories(pictureUrl, repositoriesInfo);
     },
 
     extractContributionInfoFromData: function(data) {

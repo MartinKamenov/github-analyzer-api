@@ -28,6 +28,12 @@ const githubService = {
 
         return responce.text();
     },
+    extractDataFromRepositories: (pictureUrl, repositoriesInfo) => {
+        return {
+            pictureUrl,
+            repositoriesInfo
+        };
+    },
     extractDataFromContributions: (pictureUrl, dateContributionsNumbers) => {
         let totalContributionsCount = 0;
         let daysWithoutContributions = 0;
