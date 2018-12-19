@@ -25,21 +25,24 @@ const controller = {
     extractRepositoryInfoFromData: function(data) {
         $('body').empty();
         $('body').append(data);
+
+        const pictureUrl = this.extractProfilePictureUrl();
+
         const repositoryElements = $('[itemprop="name codeRepository"]');
-        const repositories = [];
+        const repositoriesInfo = [];
         repositoryElements.map(function() {
             const name = $(this).text().replace('\n', '').replace(/\s/g, '');
-            repositories.push({name});
+            repositoriesInfo.push({name});
         });
 
         const repositoryLanguages = $('[itemprop="programmingLanguage"]');
         repositoryLanguages.map(function(index) {
             const fullLanguage = $(this).parent().text().replace(/\s/g, '');
             const language = fullLanguage.substring(0, fullLanguage.indexOf('Updated'));
-            repositories[index].programmingLanguage = language;
+            repositoriesInfo[index].programmingLanguage = language;
         });
 
-        return repositories;
+        return repositoriesInfo;
     },
 
     extractContributionInfoFromData: function(data) {
@@ -47,11 +50,7 @@ const controller = {
         $('body').append(data);
         const dates = $('.day');
 
-        const photoElements = $('.u-photo img');
-        let pictureUrl = '';
-        photoElements.map(function() {
-            pictureUrl = $(this).attr('src');
-        });
+        const pictureUrl = this.extractProfilePictureUrl();
 
         const dateContributions = [];
         dates.map(function() {
@@ -60,6 +59,17 @@ const controller = {
         const dateContributionsNumbers = dateContributions.map(d => parseInt(d));
         return githubService.extractDataFromContributions(pictureUrl, dateContributionsNumbers);
     },
+
+    extractProfilePictureUrl: function() {
+        const photoElements = $('.u-photo img');
+        let pictureUrl = '';
+        photoElements.map(function() {
+            pictureUrl = $(this).attr('src');
+        });
+
+        return pictureUrl;
+    },
+
     addUsername(username, data) {
         return { username, data };
     },
