@@ -42,7 +42,7 @@ const attach = (app, userRepository) => {
             res.send(result);
         })
         .get('/users', async (req, res) => {
-            const users = await userController.getAllUsers();
+            const users = await userController.getAllUsers(userRepository);
             res.send(users);
         })
         .post('/users/new', async (req, res) => {
