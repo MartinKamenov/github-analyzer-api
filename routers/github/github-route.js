@@ -46,7 +46,8 @@ const attach = (app, userRepository) => {
             res.send(users);
         })
         .post('/users/new', async (req, res) => {
-            //const user = req.body;
+            const user = req.body;
+            res.send(user);
         });
     app.use('/github', router);
 };

@@ -6,6 +6,10 @@ class UserRepository {
     getAllUsers() {
         return this.database.showAll(this.collectionName);
     }
+
+    addUser(user) {
+        return this.database.insert(this.collectionName, user);
+    }
 }
 
 module.exports = UserRepository;
