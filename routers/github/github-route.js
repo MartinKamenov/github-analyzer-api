@@ -1,7 +1,8 @@
 const { Router } = require('express');
 const controller = require('./github-controller');
+const userController = require('./github-users-controller');
 
-const attach = (app) => {
+const attach = (app, userRepository) => {
     const router = Router()
         .get('/contributions/:firstusername/:secondusername', async (req, res) => {
             const firstUsername = req.params.firstusername;
@@ -39,6 +40,13 @@ const attach = (app) => {
             const data = await controller.getUserRepositoriesInformation(username);
             const result = controller.addUsername(username, data);
             res.send(result);
+        })
+        .get('/users', async (req, res) => {
+            const users = await userController.getAllUsers();
+            res.send(users);
+        })
+        .post('/users/new', async (req, res) => {
+            //const user = req.body;
         });
     app.use('/github', router);
 };

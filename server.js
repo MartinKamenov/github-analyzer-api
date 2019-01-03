@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const database = require('./database/connector');
+const UserRepository = require('./models/repositories');
 const homeRoute = require('./routers/home/home-route');
 const githubRoute = require('./routers/github/github-route');
 const cors = require('cors');
