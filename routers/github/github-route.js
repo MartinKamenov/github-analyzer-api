@@ -34,6 +34,8 @@ const attach = (app, userRepository) => {
             }
             const result = controller.addUsername(username, data);
             res.send(result);
+            const user = result;
+            userController.updateUsers(userRepository, user);
         })
         .get('/repositories/:username', async (req, res) => {
             const username = req.params.username;
@@ -44,10 +46,6 @@ const attach = (app, userRepository) => {
         .get('/users', async (req, res) => {
             const users = await userController.getAllUsers(userRepository);
             res.send(users);
-        })
-        .post('/users/new', async (req, res) => {
-            const user = req.body;
-            res.send(user);
         });
     app.use('/github', router);
 };
