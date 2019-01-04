@@ -10,6 +10,10 @@ class UserRepository {
     addUser(user) {
         return this.database.insert(this.collectionName, user);
     }
+
+    findUserByUsername(username) {
+        return this.database.find(this.collectionName, {username});
+    }
 }
 
 module.exports = UserRepository;
