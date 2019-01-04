@@ -14,6 +14,10 @@ class UserRepository {
     findUserByUsername(username) {
         return this.database.find(this.collectionName, {username});
     }
+
+    updateUser(username, newUser) {
+        return this.database.update(this.collectionName, {username}, newUser);
+    }
 }
 
 module.exports = UserRepository;

@@ -24,7 +24,7 @@ const usersController = {
         if(!hasUserWithUserUsername) {
             await userRepository.addUser(user);
         } else {
-            // Update current user
+            await userRepository.updateUser(username, user);
         }
         return user;
     }
