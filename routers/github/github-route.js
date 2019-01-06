@@ -44,7 +44,7 @@ const attach = (app, userRepository) => {
             res.send(result);
         })
         .get('/users', async (req, res) => {
-            const users = await userController.getAllUsers(userRepository);
+            const users = await userController.getAllUsers(req, userRepository);
             res.send(users);
         });
     app.use('/github', router);

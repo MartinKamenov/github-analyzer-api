@@ -1,6 +1,18 @@
+const paging = require('../../services/paging');
+const sorting = require('../../services/sorting');
+const filtering = require('../../services/filtering');
+
 const usersController = {
-    getAllUsers: async function(userRepository) {
-        const users = await userRepository.getAllUsers();
+    getAllUsers: async function(req, userRepository) {
+        const query = req.query;
+        let page = parseInt(query.page, 10);
+        let pageSize = parseInt(query.pagesize);
+
+        let users = await userRepository.getAllUsers();
+        users = filtering.filterCollection(users, query);
+        users = sorting.sortAscendingCollectionByKey(users, 'username');
+        users = paging.getCollectionPage(users, page, pageSize);
+
         return users;
     },
 
