@@ -4,7 +4,7 @@ const { window } = new JSDOM();
 const { document } = (new JSDOM('')).window;
 global.document = document;
 const $ = jQuery = require('jquery')(window);
-const githubService = require('../../service/githubService');
+const githubService = require('../../services/githubService');
 
 const controller = {
     getUserContributions: async function(username) {
