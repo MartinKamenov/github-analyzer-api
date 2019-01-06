@@ -2,6 +2,7 @@ const { Router } = require('express');
 const controller = require('./github-controller');
 const userController = require('./github-users-controller');
 const responceStatus = require('../../constants/responceStatus');
+const errorConstants = require('../../constants/errorConstants');
 
 const attach = (app, userRepository) => {
     const router = Router()
@@ -42,11 +43,19 @@ const attach = (app, userRepository) => {
             const username = req.params.username;
             const data = await controller.getUserRepositoriesInformation(username);
             const result = controller.addUsername(username, data);
-            res.send(result);
+            res.status(responceStatus.successStatus).send(result);
         })
         .get('/users', async (req, res) => {
             const users = await userController.getAllUsers(req, userRepository);
             res.status(responceStatus.successStatus).send(users);
+        })
+        .get('/:other', async(req, res) => {
+            const route = req.params.other;
+            res.status(404).send('Get ' + route + errorConstants.notFoundMessage);
+        })
+        .post('/:other', async(req, res) => {
+            const route = req.params.other;
+            res.status(404).send('Post ' + route + errorConstants.notFoundMessage);
         });
     app.use('/github', router);
 };
