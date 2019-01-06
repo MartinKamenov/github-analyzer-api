@@ -7,15 +7,21 @@ const userRepository = new UserRepository(database, 'users');
 const homeRoute = require('./routers/home/home-route');
 const githubRoute = require('./routers/github/github-route');
 const cors = require('cors');
-app.use(cors());
+const setupObject = require('./setup/setup');
 
-app.use(bodyParser.json({ limit: '50mb' }));
-app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+const start = (setupConfiguration) => {
+    app.use(cors());
 
-homeRoute(app);
-githubRoute(app, userRepository);
+    app.use(bodyParser.json({ limit: '50mb' }));
+    app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 
-const port = process.env.PORT || 5000;
-const message = 'Magic is running on ' + port;
-app.listen(port,
-    () => console.log(message));
+    homeRoute(app);
+    githubRoute(app, userRepository);
+
+    
+    const message = 'Magic is running on ' + setupConfiguration.port;
+    app.listen(setupConfiguration.port,
+        setupConfiguration.startCallback());
+};
+
+start(setupObject);
