@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const controller = require('./github-controller');
 const userController = require('./github-users-controller');
+const responceStatus = require('../../constants/responceStatus');
 
 const attach = (app, userRepository) => {
     const router = Router()
@@ -21,7 +22,7 @@ const attach = (app, userRepository) => {
             const result = controller.parsePofilesToArray(
                 firstUserResults, secondUserResults
             );
-            res.send(result);
+            res.status(responceStatus.successStatus).send(result);
         })
         .get('/contributions/:username', async (req, res) => {
             const username = req.params.username;
@@ -35,7 +36,7 @@ const attach = (app, userRepository) => {
             const result = controller.addUsername(username, data);
             res.send(result);
             const user = result;
-            userController.updateUsers(userRepository, user);
+            userController.status(responceStatus.successStatus).updateUsers(userRepository, user);
         })
         .get('/repositories/:username', async (req, res) => {
             const username = req.params.username;
@@ -45,7 +46,7 @@ const attach = (app, userRepository) => {
         })
         .get('/users', async (req, res) => {
             const users = await userController.getAllUsers(req, userRepository);
-            res.send(users);
+            res.status(responceStatus.successStatus).send(users);
         });
     app.use('/github', router);
 };

@@ -6,7 +6,7 @@ const attach = (app) => {
     router
     .get('/', (req, res) => {
         const result = controller.showHome();
-        res.send(result);
+        res.status(responceStatus.successStatus).send(result);
     });
 
     app.use('/', router);
