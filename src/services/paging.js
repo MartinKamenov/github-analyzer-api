@@ -28,12 +28,6 @@ const paging = {
             pageSize = pagingConstants.defaultPageSize;
         }
 
-        const firstIndex = (page - 1) * pageSize;
-        let lastIndex = firstIndex + pageSize;
-        if(lastIndex > collection.length) {
-            lastIndex = collection.length;
-        }
-
         const count = collection.length;
         const pagesCount = Math.ceil(count / pageSize);
 
