@@ -19,6 +19,6 @@ const attach = (app) => {
         });
 
     app.use('/', router);
-}
+};
 
 module.exports = attach;
