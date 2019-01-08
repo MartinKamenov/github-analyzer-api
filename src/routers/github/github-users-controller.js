@@ -13,10 +13,14 @@ const usersController = {
         users = sorting.sortAscendingCollectionByKey(users, 'username');
         users = paging.getCollectionPage(users, page, pageSize);
 
+        const pagingObject = paging.getPagingOptions(users, page, pageSize);
+
         const returnObject = {
-            page,
-            pageSize,
-            users
+            users,
+            page: pagingObject.page,
+            pageSize: pagingObject.pageSize,
+            pagesCount: pagingObject.pagesCount,
+            count: pagingObject.count
         };
         return returnObject;
     },

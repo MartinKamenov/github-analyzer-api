@@ -34,8 +34,14 @@ const paging = {
             lastIndex = collection.length;
         }
 
+        const count = collection.length;
+        const pagesCount = Math.ceil(count / pageSize);
+
         return {
             page,
+            pageSize,
+            pagesCount,
+            count
         };
     }
 };
