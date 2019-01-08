@@ -35,9 +35,9 @@ const attach = (app, userRepository) => {
                 data = await controller.getUserContributions(username);
             }
             const result = controller.addUsername(username, data);
-            res.send(result);
+            res.status(responceStatus.successStatus).send(result);
             const user = result;
-            userController.status(responceStatus.successStatus).updateUsers(userRepository, user);
+            userController.updateUsers(userRepository, user);
         })
         .get('/repositories/:username', async (req, res) => {
             const username = req.params.username;

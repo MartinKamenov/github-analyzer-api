@@ -1,8 +1,9 @@
 const setupObject = {
     port: process.env.PORT || 5000,
-    message: "Magic is running on ",
+    message: 'Magic is running on ',
     startCallback: function() {
-        console.log(this.message + this.port)
+        // eslint-disable-next-line no-console
+        console.log(this.message + this.port);
     }
 };
 

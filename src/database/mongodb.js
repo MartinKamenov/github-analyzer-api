@@ -4,7 +4,7 @@ const ObjectID = require('mongodb').ObjectID;
 class Database {
     constructor(connectionString) {
         this.connectionString = connectionString;
-        this.connection = new Promise((resolve, reject) => {
+        this.connection = new Promise((resolve) => {
             resolve(MongoClient.connect(this.connectionString));
         });
     }
@@ -132,6 +132,6 @@ class Database {
                 });
         });
     }
-};
+}
 
 module.exports = Database;
