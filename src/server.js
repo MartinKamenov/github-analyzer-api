@@ -17,8 +17,7 @@ const start = (setupConfiguration) => {
 
     githubRoute(app, userRepository);
     errorRoute(app);
-    
-    const message = 'Magic is running on ' + setupConfiguration.port;
+
     app.listen(setupConfiguration.port,
         setupConfiguration.startCallback());
 };

@@ -3,7 +3,7 @@ const { JSDOM } = jsdom;
 const { window } = new JSDOM();
 const { document } = (new JSDOM('')).window;
 global.document = document;
-const $ = jQuery = require('jquery')(window);
+const $ = require('jquery')(window);
 const githubService = require('../../services/githubService');
 
 const controller = {
