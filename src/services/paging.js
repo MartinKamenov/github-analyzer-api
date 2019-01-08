@@ -17,6 +17,26 @@ const paging = {
         }
 
         return collection.filter((c, i) => (i >= firstIndex) && (i < lastIndex));
+    },
+
+    getPagingOptions(collection, page, pageSize) {
+        if(!page) {
+            page = pagingConstants.defaultPage;
+        }
+
+        if(!pageSize) {
+            pageSize = pagingConstants.defaultPageSize;
+        }
+
+        const count = collection.length;
+        const pagesCount = Math.ceil(count / pageSize);
+
+        return {
+            page,
+            pageSize,
+            pagesCount,
+            count
+        };
     }
 };
 
