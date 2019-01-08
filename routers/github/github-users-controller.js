@@ -13,7 +13,12 @@ const usersController = {
         users = sorting.sortAscendingCollectionByKey(users, 'username');
         users = paging.getCollectionPage(users, page, pageSize);
 
-        return users;
+        const returnObject = {
+            page,
+            pageSize,
+            users
+        };
+        return returnObject;
     },
 
     findUserByUsername: async function(userRepository, username) {
