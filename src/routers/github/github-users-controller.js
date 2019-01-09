@@ -11,9 +11,8 @@ const usersController = {
         let users = await userRepository.getAllUsers();
         users = filtering.filterCollection(users, query);
         users = sorting.sortAscendingCollectionByKey(users, 'username');
-        users = paging.getCollectionPage(users, page, pageSize);
-
         const pagingObject = paging.getPagingOptions(users, page, pageSize);
+        users = paging.getCollectionPage(users, page, pageSize);
 
         const returnObject = {
             users,
