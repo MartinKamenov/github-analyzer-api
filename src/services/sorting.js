@@ -1,26 +1,65 @@
 const sorting = {
-    sortDescendingCollectionByKey: (collection, key) => {
+    sortDescendingCollectionByKey: (collection, ...keys) => {
         if(!collection.length) {
             return collection;
         }
 
-        if(collection[0][key] instanceof Date) {  
-            return collection.sort((a, b) => b[key].getTime() - a[key].getTime());
-        } else {
-            return collection.sort((a, b) => b[key] - a[key]);
-        }
+        return collection.sort((a, b) => {
+            let firstFinalProp = a;
+            let lastFinalProp = b;
+            keys.forEach(key => {
+                firstFinalProp = firstFinalProp[key];
+                lastFinalProp = lastFinalProp[key];
+            });
+
+            if(firstFinalProp instanceof Date && lastFinalProp instanceof Date) {
+                return firstFinalProp.getTime() - lastFinalProp.getTime();
+            }
+
+            if(typeof firstFinalProp === 'string') {
+                firstFinalProp = firstFinalProp.toString().toLowerCase();
+                lastFinalProp = lastFinalProp.toString().toLowerCase();
+            }
+
+            if(firstFinalProp < lastFinalProp) {
+                return 1;
+            } else if(firstFinalProp > lastFinalProp) {
+                return -1;
+            } else {
+                return 0;
+            }
+        });
     },
 
-    sortAscendingCollectionByKey: (collection, key) => {
+    sortAscendingCollectionByKey: (collection, ...keys) => {
         if(!collection.length) {
             return collection;
         }
 
-        if(collection[0][key] instanceof Date) {  
-            return collection.sort((a, b) => a[key].getTime() - b[key].getTime());
-        } else {
-            return collection.sort((a, b) => a[key] - b[key]);
-        }
+        
+        return collection.sort((a, b) => {
+            let firstFinalProp = a;
+            let lastFinalProp = b;
+            keys.forEach(key => {
+                firstFinalProp = firstFinalProp[key];
+                lastFinalProp = lastFinalProp[key];
+            });
+
+            if(firstFinalProp instanceof Date && lastFinalProp instanceof Date) {
+                return firstFinalProp.getTime() - lastFinalProp.getTime();
+            }
+
+            firstFinalProp = firstFinalProp.toString().toLowerCase();
+            lastFinalProp = lastFinalProp.toString().toLowerCase();
+
+            if(firstFinalProp < lastFinalProp) {
+                return -1;
+            } else if(firstFinalProp > lastFinalProp) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
     }
 };
 
