@@ -24,6 +24,11 @@ const attach = (app, userRepository) => {
                 firstUserResults, secondUserResults
             );
             res.status(responceStatus.successStatus).send(result);
+            
+            const firstUser = result[0];
+            userController.updateUsers(userRepository, firstUser);
+            const secondUser = result[1];
+            userController.updateUsers(userRepository, secondUser);
         })
         .get('/contributions/:username', async (req, res) => {
             const username = req.params.username;
