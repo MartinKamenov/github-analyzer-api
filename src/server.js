@@ -20,8 +20,6 @@ const start = (setupConfiguration) => {
 
     app.listen(setupConfiguration.port,
         setupConfiguration.startCallback());
-    
-    setupConfiguration.pinServerOnInterval(300000);
 };
 
 start(setupObject);
