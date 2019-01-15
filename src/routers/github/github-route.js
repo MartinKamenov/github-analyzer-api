@@ -7,8 +7,10 @@ const errorConstants = require('../../constants/errorConstants');
 const attach = (app, userRepository) => {
     const router = Router()
         .get('/contributions/:firstusername/:secondusername', async (req, res) => {
-            const firstUsername = req.params.firstusername;
-            const secondUsername = req.params.secondusername;
+            let firstUsername = req.params.firstusername;
+            firstUsername = firstUsername.toLowerCase();
+            let secondUsername = req.params.secondusername;
+            secondUsername = secondUsername.toLowerCase();
             const year = req.query.year;
             let firstUsernameContributions, secondUsernameContributions;
             if(year) {
@@ -31,7 +33,8 @@ const attach = (app, userRepository) => {
             userController.updateUsers(userRepository, secondUser);
         })
         .get('/contributions/:username', async (req, res) => {
-            const username = req.params.username;
+            let username = req.params.username;
+            username = username.toLowerCase();
             const year = req.query.year;
             let data;
             if(year) {
