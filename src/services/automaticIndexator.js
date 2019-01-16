@@ -1,13 +1,15 @@
 const githubController = require('../routers/github/github-controller');
 const usersController = require('../routers/github/github-users-controller');
 const indexationConstants = require('../constants/indexationConstants');
-let followingUsers = ['gaearon'];
+const { to } = require('await-to-js');
+let followingUsers = ['fabpot'];
 
 const indexator = {
     start: async function(userRepository) {
         this.userRepository = userRepository;
         while(followingUsers.length) {
-            await this.extractUser(followingUsers[0]);
+            const [err, quote] = await to(this.extractUser(followingUsers[0]));
+            followingUsers.shift();
             await this.waitSomeTime(indexationConstants.timeout);
         }
     },
@@ -33,8 +35,10 @@ const indexator = {
 
         const completeUser = githubController.addUsername(username, data);
         usersController.updateUsers(this.userRepository, completeUser);
+
+        // eslint-disable-next-line no-console
         console.log(followingUsers[0] + ' was added');
-        followingUsers.shift();
+        return completeUser;
     },
 
     waitSomeTime: async function(time) {

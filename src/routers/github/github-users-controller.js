@@ -39,6 +39,9 @@ const usersController = {
     },
 
     updateUsers: async function(userRepository, user) {
+        if(!user.data || !user.data.totalContributions) {
+            return;
+        }
         const username = user.username;
         const hasUserWithUserUsername = await this.hasUserWithUsername(userRepository, username);
         if(!hasUserWithUserUsername) {
