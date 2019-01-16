@@ -20,6 +20,12 @@ const githubService = {
         return data;
     },
 
+    getUserFollowersInformation: async function(account) {
+        const queryParam = '?tab=followers';
+        const data = await this.fetchData(githubUrl + account + queryParam);
+        return data;
+    },
+
     fetchData: async(url) => {
         const responce = await fetch(url);
         if(!responce.ok) {

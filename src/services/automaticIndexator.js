@@ -2,16 +2,18 @@ const githubController = require('../routers/github/github-controller');
 const usersController = require('../routers/github/github-users-controller');
 
 const indexator = {
-    start: function(usersRepository, timeout) {
-        this.usersRepository = usersRepository;
-        setInterval(timeout);
+    start: function(userRepository, timeout) {
+        this.userRepository = userRepository;
+        //setInterval(this.extractUser, timeout);
+        this.extractUser('martinkamenov');
     },
     extractUser: async function(username) {
         username = username.toLowerCase();
-        let data;
-        data = await githubController.getUserContributions(username);
+        let data = await githubController.getUserContributions(username);
+        let followers = await githubController.getUserFollowers(username);
+
         const completeUser = githubController.addUsername(username, data);
-        usersController.updateUsers(this.usersRepository, completeUser);
+        usersController.updateUsers(this.userRepository, completeUser);
     }
 };
 

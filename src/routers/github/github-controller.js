@@ -22,6 +22,25 @@ const controller = {
         return this.extractRepositoryInfoFromData(data);
     },
 
+    getUserFollowers: async function(username) {
+        const data = await githubService.getUserFollowersInformation(username);
+        return this.extractFollowersInfoFromData(data);
+    },
+
+    extractFollowersInfoFromData: function(data) {
+        $('body').empty();
+        $('body').append(data);
+        
+        const usernameElements = $('.link-gray');
+        const usernames = [];
+        usernameElements.map(function() {
+            const name = $(this).text();
+            usernames.push(name);
+        });
+
+        return usernames;
+    },
+
     extractRepositoryInfoFromData: function(data) {
         $('body').empty();
         $('body').append(data);
