@@ -1,6 +1,6 @@
 const indexationConstants = {
-    // 20000ms = 20sec
-    timeout: 20000
+    // 5000ms = 5sec
+    timeout: 5000
 };
 
 module.exports = indexationConstants;

@@ -1,12 +1,15 @@
 const githubController = require('../routers/github/github-controller');
 const usersController = require('../routers/github/github-users-controller');
-let followingUsers = [];
+const indexationConstants = require('../constants/indexationConstants');
+let followingUsers = ['gaearon'];
 
 const indexator = {
-    start: function(userRepository, timeout) {
+    start: async function(userRepository) {
         this.userRepository = userRepository;
-        //setInterval(this.extractUser, timeout);
-        this.extractUser('gaearon');
+        while(followingUsers.length) {
+            await this.extractUser(followingUsers[0]);
+            await this.waitSomeTime(indexationConstants.timeout);
+        }
     },
     extractUser: async function(username) {
         username = username.toLowerCase();
@@ -30,6 +33,12 @@ const indexator = {
 
         const completeUser = githubController.addUsername(username, data);
         usersController.updateUsers(this.userRepository, completeUser);
+        console.log(followingUsers[0] + ' was added');
+        followingUsers.shift();
+    },
+
+    waitSomeTime: async function(time) {
+        return new Promise(resolve => setTimeout(resolve, time));
     }
 };
 
