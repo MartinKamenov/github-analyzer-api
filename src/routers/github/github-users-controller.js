@@ -39,7 +39,7 @@ const usersController = {
     },
 
     updateUsers: async function(userRepository, user) {
-        if(!user.data || !user.data.totalContributions) {
+        if(!user.data || user.data.totalContributionsCount === undefined || user.data.totalContributionsCount === null) {
             return;
         }
         const username = user.username;

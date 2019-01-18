@@ -10,7 +10,7 @@ const indexator = {
         while(followingUsers.length) {
             const [err, quote] = await to(this.extractUser(followingUsers[0]));
             followingUsers.shift();
-            //await this.waitSomeTime(indexationConstants.timeout);
+            await this.waitSomeTime(indexationConstants.timeout);
         }
     },
     extractUser: async function(username) {
