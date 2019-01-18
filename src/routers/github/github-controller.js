@@ -67,7 +67,7 @@ const controller = {
         $('body').empty();
         $('body').append(data);
 
-        const pictureUrl = this.extractProfilePictureUrl();
+        //const pictureUrl = this.extractProfilePictureUrl();
 
         const repositoryElements = $('[itemprop="name codeRepository"]');
         const repositoriesInfo = [];
@@ -83,7 +83,7 @@ const controller = {
             repositoriesInfo[index].programmingLanguage = language;
         });
 
-        return githubService.extractDataFromRepositories(pictureUrl, repositoriesInfo);
+        return repositoriesInfo;
     },
 
     extractContributionInfoFromData: function(data) {

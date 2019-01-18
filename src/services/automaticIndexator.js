@@ -10,13 +10,14 @@ const indexator = {
         while(followingUsers.length) {
             const [err, quote] = await to(this.extractUser(followingUsers[0]));
             followingUsers.shift();
-            await this.waitSomeTime(indexationConstants.timeout);
+            //await this.waitSomeTime(indexationConstants.timeout);
         }
     },
     extractUser: async function(username) {
         username = username.toLowerCase();
-        let data = await githubController.getUserContributions(username);
-        let followers = await githubController.getUserFollowers(username);
+        const completeUser = await githubController.getCompleteUser(username);
+        
+        let followers = completeUser.followers;
 
         followers.forEach(follower => {
             follower = follower.toLowerCase();
@@ -24,9 +25,7 @@ const indexator = {
                 followingUsers.push(follower);
             }
         });
-
-        const completeUser = githubController.addUsername(username, data);
-        usersController.updateUsers(this.userRepository, completeUser);
+        await usersController.updateUsers(this.userRepository, completeUser);
 
         // eslint-disable-next-line no-console
         console.log(followingUsers[0] + ' was added');
