@@ -10,7 +10,7 @@ const controller = {
     getCompleteUser: async function(username) {
         const contributions = await this.getUserContributions(username);
         const repositories = await this.getUserRepositoriesInformation(username);
-        const followers = await this.getUserFollowers();
+        const followers = await this.getUserFollowers(username);
 
         return {
             username,
