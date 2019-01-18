@@ -6,6 +6,11 @@ const errorConstants = require('../../constants/errorConstants');
 
 const attach = (app, userRepository) => {
     const router = Router()
+        .get('/user/:username', async (req, res) => {
+            const username = req.params.username;
+            const completeUser = await controller.getCompleteUser(username);
+            res.send(completeUser);
+        })
         .get('/contributions/:firstusername/:secondusername', async (req, res) => {
             let firstUsername = req.params.firstusername;
             firstUsername = firstUsername.toLowerCase();

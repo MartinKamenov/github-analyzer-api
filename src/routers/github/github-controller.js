@@ -7,6 +7,18 @@ const $ = require('jquery')(window);
 const githubService = require('../../services/githubService');
 
 const controller = {
+    getCompleteUser: async function(username) {
+        const contributions = await this.getUserContributions(username);
+        const repositories = await this.getUserRepositoriesInformation(username);
+        const followers = await this.getUserFollowers();
+
+        return {
+            username,
+            data: contributions,
+            repositories,
+            followers
+        };
+    },
     getUserContributions: async function(username) {
         const data = await githubService.getGithubAccountPage(username);
         return this.extractContributionInfoFromData(data);
@@ -24,7 +36,17 @@ const controller = {
 
     getUserFollowers: async function(username) {
         const data = await githubService.getUserFollowersInformation(username);
-        return this.extractFollowersInfoFromData(data);
+        let followers = this.extractFollowersInfoFromData(data);
+
+        let startIndex = 0;
+        for(let i = 0; i < followers.length; i++) {
+            if(followers[i].includes('Dismiss') || followers[i].includes('us feedback')) {
+                startIndex = i + 1;
+            }
+        }
+
+        followers = followers.slice(startIndex, followers.length);
+        return followers;
     },
 
     extractFollowersInfoFromData: function(data) {
