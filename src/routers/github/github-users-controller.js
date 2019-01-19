@@ -7,10 +7,14 @@ const usersController = {
         const query = req.query;
         let page = parseInt(query.page, 10);
         let pageSize = parseInt(query.pagesize);
+        let sortBy = query.sortBy;
+        if(!sortBy) {
+            sortBy = 'totalContributionsCount';
+        }
 
         let users = await userRepository.getAllUsers();
         users = filtering.filterCollection(users, query);
-        users = sorting.sortDescendingCollectionByKey(users, 'data', 'totalContributionsCount');
+        users = sorting.sortDescendingCollectionByKey(users, 'data', sortBy);
         const pagingObject = paging.getPagingOptions(users, page, pageSize);
         users = paging.getCollectionPage(users, page, pageSize);
 
