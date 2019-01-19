@@ -14,7 +14,13 @@ const usersController = {
 
         let users = await userRepository.getAllUsers();
         users = filtering.filterCollection(users, query);
-        users = sorting.sortDescendingCollectionByKey(users, 'data', sortBy);
+        if(sortBy === 'username') {
+            users = sorting.sortAscendingCollectionByKey(users, sortBy);
+        } else if(sortBy === 'daysWithoutContributions'){
+            users = sorting.sortAscendingCollectionByKey(users, 'data', sortBy);
+        } else {
+            users = sorting.sortDescendingCollectionByKey(users, 'data', sortBy);
+        }
         const pagingObject = paging.getPagingOptions(users, page, pageSize);
         users = paging.getCollectionPage(users, page, pageSize);
 
