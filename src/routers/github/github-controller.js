@@ -79,7 +79,20 @@ const controller = {
         const repositoryLanguages = $('[itemprop="programmingLanguage"]');
         repositoryLanguages.map(function(index) {
             const fullLanguage = $(this).parent().text().replace(/\s/g, '');
-            const language = fullLanguage.substring(0, fullLanguage.indexOf('Updated'));
+            let language = fullLanguage.substring(0, fullLanguage.indexOf('Updated'));
+
+            let indexOfNumber = fullLanguage.search(/\d/);
+            let indexOfMIT = fullLanguage.search(/MIT/);
+            if(indexOfNumber === -1) {
+                indexOfNumber = fullLanguage.length;
+            }
+
+            if(indexOfMIT === -1) {
+                indexOfMIT = fullLanguage.length;
+            }
+            let lastIndex = Math.min(indexOfNumber, indexOfMIT);
+
+            language = language.substring(0, lastIndex);
             repositoriesInfo[index].programmingLanguage = language;
         });
 
