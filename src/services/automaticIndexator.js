@@ -2,16 +2,16 @@ const githubController = require('../routers/github/github-controller');
 const usersController = require('../routers/github/github-users-controller');
 const indexationConstants = require('../constants/indexationConstants');
 const { to } = require('await-to-js');
-let followingUsers = ['fabpot'];
+let followingUsers = ['gaearon'];
 let counter = 0;
+let totalCount = 1;
 
 const indexator = {
     start: async function(userRepository) {
         this.userRepository = userRepository;
         //await this.updateCurrentUsers(userRepository);
-        while(followingUsers.length) {
-            const [err, quote] = await to(this.extractUser(followingUsers[0]));
-            followingUsers.shift();
+        while(counter < totalCount) {
+            const [err, quote] = await to(this.extractUser(followingUsers[counter]));
             // eslint-disable-next-line no-console
             console.log(++counter);
             await this.waitSomeTime(indexationConstants.timeout);
@@ -29,10 +29,11 @@ const indexator = {
                 followingUsers.push(follower);
             }
         });
+        totalCount = followingUsers.length;
         await usersController.updateUsers(this.userRepository, completeUser);
 
         // eslint-disable-next-line no-console
-        console.log(followingUsers[0] + ' was added');
+        console.log(followingUsers[counter] + ' was added');
         return completeUser;
     },
 
@@ -42,6 +43,10 @@ const indexator = {
         for(let i = 0; i < usernames.length; i++) {
             const user = await githubController.getCompleteUser(usernames[i]);
             await usersController.updateUsers(userRepository, user);
+            // eslint-disable-next-line no-console
+            console.log('Updated ' + user.username);
+            // eslint-disable-next-line no-console
+            console.log((i + 1) + '/' + usernames.length);
         }
     },
 

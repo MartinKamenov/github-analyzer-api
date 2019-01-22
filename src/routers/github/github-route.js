@@ -10,6 +10,7 @@ const attach = (app, userRepository) => {
             const username = req.params.username;
             const completeUser = await controller.getCompleteUser(username);
             res.send(completeUser);
+            userController.updateUsers(userRepository, completeUser);
         })
         .get('/contributions/:firstusername/:secondusername', async (req, res) => {
             let firstUsername = req.params.firstusername;
