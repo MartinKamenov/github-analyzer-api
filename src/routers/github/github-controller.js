@@ -46,15 +46,7 @@ const controller = {
             afterParam = followersInfo.afterParam;
             shouldContinue = followersInfo.shouldContinue;
         }
-
-        let startIndex = 0;
-        for(let i = 0; i < followers.length; i++) {
-            if(followers[i].includes('Dismiss') || followers[i].includes('us feedback')) {
-                startIndex = i + 1;
-            }
-        }
-
-        followers = followers.slice(startIndex, followers.length);
+        
         return followers;
     },
 
@@ -65,10 +57,10 @@ const controller = {
         let shouldContinue = false;
         
         const usernameElements = $('.link-gray');
-        const usernames = [];
+        let followers = [];
         usernameElements.map(function() {
             const name = $(this).text();
-            usernames.push(name);
+            followers.push(name);
         });
 
         let afterParam = null;
@@ -83,7 +75,16 @@ const controller = {
             shouldContinue = true;
         }
 
-        return { shouldContinue, followers: usernames, afterParam };
+        let startIndex = 0;
+        for(let i = 0; i < followers.length; i++) {
+            if(followers[i].includes('Dismiss') || followers[i].includes('us feedback')) {
+                startIndex = i + 1;
+            }
+        }
+
+        followers = followers.slice(startIndex, followers.length);
+
+        return { shouldContinue, followers, afterParam };
     },
 
     extractRepositoryInfoFromData: function(data) {

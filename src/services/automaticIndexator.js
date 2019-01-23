@@ -2,7 +2,7 @@ const githubController = require('../routers/github/github-controller');
 const usersController = require('../routers/github/github-users-controller');
 const indexationConstants = require('../constants/indexationConstants');
 const { to } = require('await-to-js');
-let followingUsers = ['1995parham'];
+let followingUsers = ['gaearon'];
 let counter = 0;
 let totalCount = 1;
 
