@@ -8,7 +8,11 @@ const attach = (app, userRepository) => {
     const router = Router()
         .get('/user/:username', async (req, res) => {
             const username = req.params.username;
-            const completeUser = await controller.getCompleteUser(username);
+            
+            let completeUser = await controller.getSavedUser(username, userRepository);
+            if(!completeUser) {
+                completeUser = await controller.getCompleteUser(username);
+            }
             res.send(completeUser);
             userController.updateUsers(userRepository, completeUser);
         })

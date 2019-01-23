@@ -7,6 +7,14 @@ const $ = require('jquery')(window);
 const githubService = require('../../services/githubService');
 
 const controller = {
+    getSavedUser: async function(username, userRepository) {
+        const users = await userRepository.findUserByUsername(username);
+        if(!users.length) {
+            return null;
+        }
+
+        return users[0];
+    },
     getCompleteUser: async function(username) {
         const contributions = await this.getUserContributions(username);
         const repositories = await this.getUserRepositoriesInformation(username);
