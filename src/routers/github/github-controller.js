@@ -5,6 +5,7 @@ const { document } = (new JSDOM('')).window;
 global.document = document;
 const $ = require('jquery')(window);
 const githubService = require('../../services/githubService');
+const githubAnalyzingService = require('../../services/githubAnalyzingService');
 
 const controller = {
     getSavedUser: async function(username, userRepository) {
@@ -20,7 +21,10 @@ const controller = {
         const repositories = await this.getUserRepositoriesInformation(username);
         const followers = await this.getUserFollowers(username);
 
+        const profileAnalyze = githubAnalyzingService.analyzeProfile(repositories);
+
         return {
+            profileAnalyze,
             username,
             data: contributions,
             repositories,
