@@ -23,7 +23,7 @@ const githubService = {
     getUserFollowersInformation: async function(account, afterParam) {
         let queryParam = '?tab=followers';
         if(afterParam) {
-            queryParam += afterParam;
+            queryParam += '&' + afterParam;
         }
         const data = await this.fetchData(githubUrl + account + queryParam);
         return data;

@@ -43,6 +43,7 @@ const controller = {
             const data = await githubService.getUserFollowersInformation(username, afterParam);
             let followersInfo = this.extractFollowersInfoFromData(data);
             followersInfo.followers.forEach(f => followers.push(f));
+            afterParam = followersInfo.afterParam;
             shouldContinue = followersInfo.shouldContinue;
         }
 
@@ -71,12 +72,18 @@ const controller = {
         });
 
         let afterParam = null;
-        //TO DO: Find if page has after parameter
-        if(afterParam) {
+        let srcToNextPage = null;
+        const afterElement = $('a:contains("Next")');
+        if(afterElement.length) {
+            srcToNextPage = afterElement[0].href;
+        }
+
+        if(srcToNextPage) {
+            afterParam = srcToNextPage.substring(srcToNextPage.indexOf('?') + 1, srcToNextPage.indexOf('&'));
             shouldContinue = true;
         }
 
-        return { shouldContinue, usernames, afterParam };
+        return { shouldContinue, followers: usernames, afterParam };
     },
 
     extractRepositoryInfoFromData: function(data) {
