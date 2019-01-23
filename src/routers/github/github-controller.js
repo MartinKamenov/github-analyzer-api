@@ -35,8 +35,16 @@ const controller = {
     },
 
     getUserFollowers: async function(username) {
-        const data = await githubService.getUserFollowersInformation(username);
-        let followers = this.extractFollowersInfoFromData(data);
+        let followers = [];
+        let shouldContinue = true;
+        let afterParam = null;
+
+        while(shouldContinue) {
+            const data = await githubService.getUserFollowersInformation(username, afterParam);
+            let followersInfo = this.extractFollowersInfoFromData(data);
+            followersInfo.followers.forEach(f => followers.push(f));
+            shouldContinue = followersInfo.shouldContinue;
+        }
 
         let startIndex = 0;
         for(let i = 0; i < followers.length; i++) {
@@ -52,6 +60,8 @@ const controller = {
     extractFollowersInfoFromData: function(data) {
         $('body').empty();
         $('body').append(data);
+
+        let shouldContinue = false;
         
         const usernameElements = $('.link-gray');
         const usernames = [];
@@ -60,7 +70,13 @@ const controller = {
             usernames.push(name);
         });
 
-        return usernames;
+        let afterParam = null;
+        //TO DO: Find if page has after parameter
+        if(afterParam) {
+            shouldContinue = true;
+        }
+
+        return { shouldContinue, usernames, afterParam };
     },
 
     extractRepositoryInfoFromData: function(data) {
