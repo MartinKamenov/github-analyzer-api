@@ -11,6 +11,7 @@ const githubAnalyzingService = {
 
     analyzeRepositories: function(repositories) {
         let programmingLanguages = [];
+
         repositories.map(r => r.programmingLanguage).forEach((repo) => {
             const indexOfRepo = programmingLanguages.map(p => p.repo).indexOf(repo);
             if(indexOfRepo === -1) {
@@ -22,7 +23,7 @@ const githubAnalyzingService = {
 
         programmingLanguages = sorting.sortDescendingCollectionByKey(programmingLanguages, 'count');
 
-        return programmingLanguages[0];
+        return programmingLanguages.slice(0, 5);
     }
 };
 

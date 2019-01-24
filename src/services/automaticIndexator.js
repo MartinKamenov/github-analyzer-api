@@ -1,8 +1,9 @@
 const githubController = require('../routers/github/github-controller');
 const usersController = require('../routers/github/github-users-controller');
 const indexationConstants = require('../constants/indexationConstants');
+const githubAnalyzingService = require('../services/githubAnalyzingService');
 const { to } = require('await-to-js');
-let followingUsers = ['gaearon'];
+let followingUsers = ['martinkamenov'];
 let counter = 0;
 let totalCount = 1;
 
@@ -47,6 +48,18 @@ const indexator = {
             console.log('Updated ' + user.username);
             // eslint-disable-next-line no-console
             console.log((i + 1) + '/' + usernames.length);
+        }
+    },
+
+    addAnalyzatorDataToUsers: async function(userRepository) {
+        const users = await userRepository.getAllUsers();
+        for(let i = 0; i < users.length; i++) {
+            let user = users[i];
+            const profileAnalyze = githubAnalyzingService.analyzeProfile(user.repositories);
+            user.profileAnalyze = profileAnalyze;
+            await userRepository.updateUser(user.username, user);
+            // eslint-disable-next-line no-console
+            console.log(user.username + ' updated. ' + i + '/' + users.length);
         }
     },
 
