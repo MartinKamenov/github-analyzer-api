@@ -2,13 +2,15 @@ const sorting = require('../services/sorting');
 const sectorTypes = require('../constants/sectorTypes');
 
 const githubAnalyzingService = {
-    analyzeProfile: function(data, repositories) {
+    analyzeProfile: function(data, repositories, followers) {
         const contributionsAnalyze = this.analyzeContributions(data);
         const repositoriesAnalyze = this.analyzeRepositories(repositories);
+        const followersStar = this.analyzeFollowers(followers);
         
         return {
             contributionsAnalyze,
-            repositoriesAnalyze
+            repositoriesAnalyze,
+            followersStar
         };
     },
 
@@ -62,6 +64,14 @@ const githubAnalyzingService = {
         programmingLanguages = sorting.sortDescendingCollectionByKey(programmingLanguages, 'count');
 
         return programmingLanguages.slice(0, 5);
+    },
+
+    analyzeFollowers: function(followers) {
+        if(followers.length > 100) {
+            return true;
+        }
+
+        return false;
     }
 };
 

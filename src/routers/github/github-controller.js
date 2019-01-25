@@ -16,12 +16,14 @@ const controller = {
 
         return users[0];
     },
+
     getCompleteUser: async function(username) {
         const contributions = await this.getUserContributions(username);
         const repositories = await this.getUserRepositoriesInformation(username);
         const followers = await this.getUserFollowers(username);
 
-        const profileAnalyze = githubAnalyzingService.analyzeProfile(contributions, repositories);
+        const profileAnalyze = githubAnalyzingService
+            .analyzeProfile(contributions, repositories, followers);
 
         return {
             profileAnalyze,
@@ -31,6 +33,7 @@ const controller = {
             followers
         };
     },
+
     getUserContributions: async function(username) {
         const data = await githubService.getGithubAccountPage(username);
         return this.extractContributionInfoFromData(data);
