@@ -1,5 +1,6 @@
 const sorting = require('../services/sorting');
 const sectorTypes = require('../constants/sectorTypes');
+const contributionsTypes = require('../constants/contributionsTypes');
 
 const githubAnalyzingService = {
     analyzeProfile: function(data, repositories, followers) {
@@ -46,7 +47,19 @@ const githubAnalyzingService = {
             }
         }
 
-        return { sectors };
+        let contributorType = contributionsTypes.NotContributtor;
+
+        if(data.conclussiveContributions > 30 && data.maxContributionsForDay > 50) {
+            contributorType = contributionsTypes.OverallContributor;
+        } else if(data.maxContributionsForDay > 50) {
+            contributorType = contributionsTypes.PeekContributor;
+        } else if(data.conclussiveContributions > 50) {
+            contributorType = contributionsTypes.ConstantContributor;
+        } else if(data.totalContributionsCount > 50) {
+            contributorType = contributionsTypes.SmallContributor;
+        }
+
+        return { sectors, contributorType };
     },
 
     analyzeRepositories: function(repositories) {
