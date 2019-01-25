@@ -21,7 +21,7 @@ const controller = {
         const repositories = await this.getUserRepositoriesInformation(username);
         const followers = await this.getUserFollowers(username);
 
-        const profileAnalyze = githubAnalyzingService.analyzeProfile(repositories);
+        const profileAnalyze = githubAnalyzingService.analyzeProfile(contributions, repositories);
 
         return {
             profileAnalyze,

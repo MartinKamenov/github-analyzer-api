@@ -55,7 +55,7 @@ const indexator = {
         const users = await userRepository.getAllUsers();
         for(let i = 0; i < users.length; i++) {
             let user = users[i];
-            const profileAnalyze = githubAnalyzingService.analyzeProfile(user.repositories);
+            const profileAnalyze = githubAnalyzingService.analyzeProfile(user.data, user.repositories);
             user.profileAnalyze = profileAnalyze;
             await userRepository.updateUser(user.username, user);
             // eslint-disable-next-line no-console
