@@ -11,12 +11,13 @@ const indexator = {
     start: async function(userRepository) {
         this.userRepository = userRepository;
         //await this.updateCurrentUsers(userRepository);
-        while(counter < totalCount) {
+        /*while(counter < totalCount) {
             const [err, quote] = await to(this.extractUser(followingUsers[counter]));
             // eslint-disable-next-line no-console
             console.log(++counter);
             await this.waitSomeTime(indexationConstants.timeout);
-        }
+        }*/
+        await this.addAnalyzatorDataToUsers(userRepository);
     },
     extractUser: async function(username) {
         username = username.toLowerCase();
@@ -56,11 +57,11 @@ const indexator = {
         for(let i = 0; i < users.length; i++) {
             let user = users[i];
             const profileAnalyze = githubAnalyzingService
-                .analyzeProfile(user.data, user.repositories, user.follower);
+                .analyzeProfile(user.data, user.repositories, user.followers);
             user.profileAnalyze = profileAnalyze;
             await userRepository.updateUser(user.username, user);
             // eslint-disable-next-line no-console
-            console.log(user.username + ' updated. ' + i + '/' + users.length);
+            console.log(user.username + ' analyzed. ' + i + '/' + users.length);
         }
     },
 
