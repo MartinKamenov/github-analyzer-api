@@ -7,7 +7,8 @@ const errorConstants = require('../../constants/errorConstants');
 const attach = (app, userRepository) => {
     const router = Router()
         .get('/user/:username', async (req, res) => {
-            const username = req.params.username;
+            let username = req.params.username;
+            username = username.toLowerCase();
             
             let completeUser = await controller.getSavedUser(username, userRepository);
             if(!completeUser) {
