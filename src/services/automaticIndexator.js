@@ -53,7 +53,8 @@ const indexator = {
     },
 
     addAnalyzatorDataToUsers: async function(userRepository) {
-        const users = await userRepository.getAllUsers();
+        let users = await userRepository.getAllUsers();
+        users = users.filter(u => (!u.profileAnalyze && u.repositories));
         for(let i = 0; i < users.length; i++) {
             let user = users[i];
             const profileAnalyze = githubAnalyzingService

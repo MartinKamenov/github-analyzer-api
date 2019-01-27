@@ -38,9 +38,9 @@ const attach = (app, userRepository) => {
             );
             res.status(responceStatus.successStatus).send(result);
             
-            const firstUser = result[0];
+            const firstUser = controller.getCompleteUser(firstUsername);
             userController.updateUsers(userRepository, firstUser);
-            const secondUser = result[1];
+            const secondUser = controller.getCompleteUser(secondUsername);
             userController.updateUsers(userRepository, secondUser);
         })
         .get('/contributions/:username', async (req, res) => {
@@ -55,7 +55,8 @@ const attach = (app, userRepository) => {
             }
             const result = controller.addUsername(username, data);
             res.status(responceStatus.successStatus).send(result);
-            const user = result;
+
+            const user = await controller.getCompleteUser(username);
             userController.updateUsers(userRepository, user);
         })
         .get('/repositories/:username', async (req, res) => {
