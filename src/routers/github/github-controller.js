@@ -116,26 +116,25 @@ const controller = {
         });
 
         const repositoryLanguages = $('[itemprop="programmingLanguage"]');
+        let self = this;
         repositoryLanguages.map(function(index) {
             const fullLanguage = $(this).parent().text().replace(/\s/g, '');
             let language = fullLanguage.substring(0, fullLanguage.indexOf('Updated'));
 
-            let indexOfNumber = fullLanguage.search(/\d/);
-            let indexOfMIT = fullLanguage.search(/MIT/);
-            if(indexOfNumber === -1) {
-                indexOfNumber = fullLanguage.length;
-            }
+            language = self.removeLicenseFromRepo(language);
 
-            if(indexOfMIT === -1) {
-                indexOfMIT = fullLanguage.length;
-            }
-            let lastIndex = Math.min(indexOfNumber, indexOfMIT);
-
-            language = language.substring(0, lastIndex);
             repositoriesInfo[index].programmingLanguage = language;
         });
 
         return repositoriesInfo;
+    },
+
+    removeLicenseFromRepo: function(language) {
+        const licenses = [/MIT.*/, /\d.*/, /The.*/, /Other.*/];
+        for(let i = 0; i < licenses.length; i++) {
+            language = language.replace(licenses[i],'');
+        }
+        return language;
     },
 
     extractContributionInfoFromData: function(data) {

@@ -3,21 +3,22 @@ const usersController = require('../routers/github/github-users-controller');
 const indexationConstants = require('../constants/indexationConstants');
 const githubAnalyzingService = require('../services/githubAnalyzingService');
 const { to } = require('await-to-js');
-let followingUsers = ['martinkamenov'];
+let followingUsers = ['samsonasik'];
 let counter = 0;
 let totalCount = 1;
 
 const indexator = {
     start: async function(userRepository) {
         this.userRepository = userRepository;
-        //await this.updateCurrentUsers(userRepository);
+        await this.updateCurrentUsers(userRepository);
         /*while(counter < totalCount) {
             const [err, quote] = await to(this.extractUser(followingUsers[counter]));
             // eslint-disable-next-line no-console
+            console.log(followingUsers[counter]);
             console.log(++counter);
             await this.waitSomeTime(indexationConstants.timeout);
         }*/
-        await this.addAnalyzatorDataToUsers(userRepository);
+        //await this.addAnalyzatorDataToUsers(userRepository);
     },
     extractUser: async function(username) {
         username = username.toLowerCase();
