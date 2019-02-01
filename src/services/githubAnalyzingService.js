@@ -64,7 +64,7 @@ const githubAnalyzingService = {
 
     analyzeRepositories: function(repositories) {
         let programmingLanguages = [];
-
+        repositories = repositories.filter(r => r.programmingLanguage);
         repositories.map(r => r.programmingLanguage).forEach((repo) => {
             const indexOfRepo = programmingLanguages.map(p => p.repo).indexOf(repo);
             if(indexOfRepo === -1) {

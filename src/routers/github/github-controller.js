@@ -130,7 +130,7 @@ const controller = {
     },
 
     removeLicenseFromRepo: function(language) {
-        const licenses = [/MIT.*/, /\d.*/, /The.*/, /Other.*/];
+        const licenses = [/MIT.*/, /\d.*/, /The.*/, /Other.*/, /Apache.*/, /GNU.*/];
         for(let i = 0; i < licenses.length; i++) {
             language = language.replace(licenses[i],'');
         }
