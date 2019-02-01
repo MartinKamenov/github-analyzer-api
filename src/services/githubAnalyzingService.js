@@ -66,6 +66,9 @@ const githubAnalyzingService = {
         let programmingLanguages = [];
         repositories = repositories.filter(r => r.programmingLanguage);
         repositories.map(r => r.programmingLanguage).forEach((repo) => {
+            if(!repo) {
+                return;
+            }
             const indexOfRepo = programmingLanguages.map(p => p.repo).indexOf(repo);
             if(indexOfRepo === -1) {
                 programmingLanguages.push({ repo, count: 1 });

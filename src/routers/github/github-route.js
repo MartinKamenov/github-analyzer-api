@@ -15,6 +15,8 @@ const attach = (app, userRepository) => {
                 completeUser = await controller.getCompleteUser(username);
             }
             res.send(completeUser);
+
+            completeUser = await controller.getCompleteUser(username);
             userController.updateUsers(userRepository, completeUser);
         })
         .get('/contributions/:firstusername/:secondusername', async (req, res) => {

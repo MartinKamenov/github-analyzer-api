@@ -6,6 +6,7 @@ global.document = document;
 const $ = require('jquery')(window);
 const githubService = require('../../services/githubService');
 const githubAnalyzingService = require('../../services/githubAnalyzingService');
+const indexationConstants = require('../../constants/indexationConstants');
 
 const controller = {
     getSavedUser: async function(username, userRepository) {
@@ -60,6 +61,7 @@ const controller = {
             followersInfo.followers.forEach(f => followers.push(f));
             afterParam = followersInfo.afterParam;
             shouldContinue = followersInfo.shouldContinue;
+            await this.waitSomeTime(indexationConstants.followersTimeout);
         }
         
         return followers;
@@ -172,6 +174,10 @@ const controller = {
 
     parsePofilesToArray(...profiles) {
         return profiles;
+    },
+
+    waitSomeTime: async function(time) {
+        return new Promise(resolve => setTimeout(resolve, time));
     }
 };
 
