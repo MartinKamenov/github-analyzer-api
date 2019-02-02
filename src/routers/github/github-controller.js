@@ -111,21 +111,36 @@ const controller = {
         //const pictureUrl = this.extractProfilePictureUrl();
 
         const repositoryElements = $('[itemprop="name codeRepository"]');
+        //const descriptionElements = $('[itemprop="description"]');
         const repositoriesInfo = [];
-        repositoryElements.map(function() {
-            const name = $(this).text().replace('\n', '').replace(/\s/g, '');
-            repositoriesInfo.push({name});
-        });
-
-        const repositoryLanguages = $('[itemprop="programmingLanguage"]');
         let self = this;
-        repositoryLanguages.map(function(index) {
-            const fullLanguage = $(this).parent().text().replace(/\s/g, '');
-            let language = fullLanguage.substring(0, fullLanguage.indexOf('Updated'));
 
-            language = self.removeLicenseFromRepo(language);
+        repositoryElements.map(function() {
+            const parentElement = $(this).parent().parent().parent();
+            const name = $(this).text().replace('\n', '').replace(/\s/g, '');
+            
+            let programmingLanguage = null;
+            let description = null;
 
-            repositoriesInfo[index].programmingLanguage = language;
+            const programmingLanguageElements = parentElement.find('[itemprop="programmingLanguage"]');
+            const descriptionElements = parentElement.find('[itemprop="description"]');
+
+            if(programmingLanguageElements.length > 0) {
+                const programmingLanguageElement = programmingLanguageElements[0];
+                if(programmingLanguageElement.textContent) {
+                    const fullLanguage = programmingLanguageElement.textContent.replace(/\s/g, '');
+                    programmingLanguage = self.removeLicenseFromRepo(fullLanguage);
+                }
+            }
+
+            if(descriptionElements.length > 0) {
+                const descriptionElement = descriptionElements[0];
+                if(descriptionElement.textContent) {
+                    description = descriptionElement.textContent.trim();
+                }
+            }
+
+            repositoriesInfo.push({ name, programmingLanguage, description });
         });
 
         return repositoriesInfo;
