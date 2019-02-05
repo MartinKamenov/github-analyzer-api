@@ -14,6 +14,7 @@ const attach = (app, userRepository) => {
             if(!completeUser) {
                 completeUser = await controller.getCompleteUser(username);
             }
+
             res.send(completeUser);
 
             completeUser = await controller.getCompleteUser(username);
@@ -33,11 +34,13 @@ const attach = (app, userRepository) => {
                 firstUsernameContributions = await controller.getUserContributions(firstUsername);
                 secondUsernameContributions = await controller.getUserContributions(secondUsername);
             }
+
             const firstUserResults = controller.addUsername(firstUsername, firstUsernameContributions);
             const secondUserResults = controller.addUsername(secondUsername, secondUsernameContributions);
             const result = controller.parsePofilesToArray(
                 firstUserResults, secondUserResults
             );
+
             res.status(responceStatus.successStatus).send(result);
             
             const firstUser = controller.getCompleteUser(firstUsername);
@@ -65,18 +68,22 @@ const attach = (app, userRepository) => {
             const username = req.params.username;
             const data = await controller.getUserRepositoriesInformation(username);
             const result = controller.addUsername(username, data);
+
             res.status(responceStatus.successStatus).send(result);
         })
         .get('/users', async (req, res) => {
             const users = await userController.getAllUsers(req, userRepository);
+
             res.status(responceStatus.successStatus).send(users);
         })
         .get('/:other', async(req, res) => {
             const route = req.params.other;
+
             res.status(404).send('Get ' + route + errorConstants.notFoundMessage);
         })
         .post('/:other', async(req, res) => {
             const route = req.params.other;
+
             res.status(404).send('Post ' + route + errorConstants.notFoundMessage);
         });
     app.use('/github', router);
