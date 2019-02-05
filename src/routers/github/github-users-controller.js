@@ -1,6 +1,7 @@
 const paging = require('../../services/paging');
 const sorting = require('../../services/sorting');
 const filtering = require('../../services/filtering');
+const memorizing = require('../../services/memorizing');
 
 const usersController = {
     getAllUsers: async function(req, userRepository) {
@@ -12,7 +13,14 @@ const usersController = {
             sortBy = 'totalContributionsCount';
         }
 
-        let users = await userRepository.getAllUsers();
+        let users = [];
+
+        if(!memorizing['allUsers'])
+        {
+            memorizing['allUsers'] = await userRepository.getAllUsers();
+        }
+        
+        users = memorizing['allUsers'];
         users = filtering.filterCollection(users, query);
         if(sortBy === 'username') {
             users = sorting.sortAscendingCollectionByKey(users, sortBy);
@@ -31,6 +39,7 @@ const usersController = {
             pagesCount: pagingObject.pagesCount,
             count: pagingObject.count
         };
+        
         return returnObject;
     },
 
