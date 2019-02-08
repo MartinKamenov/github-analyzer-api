@@ -2,6 +2,7 @@ const paging = require('../../services/paging');
 const sorting = require('../../services/sorting');
 const filtering = require('../../services/filtering');
 const memorizing = require('../../services/memorizing');
+const filteringSeparatorConstant = '|';
 
 const usersController = {
     getAllUsers: async function(req, userRepository) {
@@ -25,6 +26,7 @@ const usersController = {
         users = memorizing['allUsers'];
         users = filtering.filterCollection(users, query);
         if(programmingLanguage) {
+            const programmingLanguages = programmingLanguage.split(filteringSeparatorConstant);
             users = users.filter((user) => {
                 const profileAnalyze = user.profileAnalyze;
                 if(!profileAnalyze) {
@@ -41,7 +43,7 @@ const usersController = {
                     return false;
                 }
                 const userMainLanguage = userMainLanguageObject.repo;
-                if(userMainLanguage === programmingLanguage) {
+                if(programmingLanguages.includes(userMainLanguage)) {
                     return true;
                 }
 
