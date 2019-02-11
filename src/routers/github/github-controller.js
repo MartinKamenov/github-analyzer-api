@@ -124,6 +124,14 @@ const controller = {
 
             const programmingLanguageElements = parentElement.find('[itemprop="programmingLanguage"]');
             const descriptionElements = parentElement.find('[itemprop="description"]');
+            const starsElement = parentElement.find('.muted-link.mr-3[href*="stargazers"]');
+            let starsCount = 0;
+            if(starsElement.length > 0) {
+                starsCount = parseInt(starsElement[0].text.trim(), 10);
+                if(!starsCount) {
+                    starsCount = 0;
+                }
+            }
 
             if(programmingLanguageElements.length > 0) {
                 const programmingLanguageElement = programmingLanguageElements[0];
@@ -140,7 +148,7 @@ const controller = {
                 }
             }
 
-            repositoriesInfo.push({ name, programmingLanguage, description });
+            repositoriesInfo.push({ name, programmingLanguage, description, starsCount });
         });
 
         return repositoriesInfo;
