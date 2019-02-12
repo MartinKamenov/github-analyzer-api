@@ -19,9 +19,15 @@ const githubAnalyzingService = {
         const numberOfSectors = 4;
         const dateContributionsNumbers = data.dateContributionsNumbers;
         const differenceForLayers = parseInt(data.totalContributionsCount / 10, 10);
+        
         const sectors = [];
         const sectorLength = parseInt(dateContributionsNumbers.length / (numberOfSectors + 1), 10);
         for(let i = 1; i < numberOfSectors + 1; i++) {
+            if(differenceForLayers === 0) {
+                sectors.push(sectorTypes[2]);
+                continue;
+            }
+
             const firstStartIndex = (i - 1) * sectorLength;
             const firstEndIndex = i * sectorLength;
             const secondEndIndex = (i + 1) * sectorLength;
