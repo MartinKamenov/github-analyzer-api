@@ -88,14 +88,20 @@ Github crawer (NodeJs backend) for GitAnalyzator
 1. [GET] request type
 
 2. Description: Getting users that have been searched sorting them descending by total contribution.
-* This route has paging.
-* This route has filtering.
+* Route supports paging.
+* Route supports filtering.
+* Route supports sorting(using sortBy in query params)
 
 3. Return type: Object that has paging information and users can be found in users field
 
 4. Query object:
 - page(number of the page)
 - pagesize(number representing records on page)
+- sortBy(what criteria to use for sorting)
+- username(searches only usernames that include this field's value)
+- language(programming languages that are main for user. To find by multiple languages use '|' symbol as separator. Multile language functionality works as 'or'(not 'and'))
 - Filtering params that are part from user model fields
 
 5. Examle
+- Request: (GET)[URL][/github/users?page=1&pageSize=6&sortBy=totalContributionsCount&username=ma&languages=Java|JavaScript]
+- Responce: {"users":[{user model}, ...], "page":1,"pageSize":6,"pagesCount":64,"count":379 }
