@@ -170,11 +170,20 @@ const controller = {
         const pictureUrl = this.extractProfilePictureUrl();
 
         const dateContributions = [];
+        const fullDateConributionInformation = [];
         dates.map(function() {
             dateContributions.push($(this).attr('data-count'));
+            fullDateConributionInformation.push({
+                contributions: parseInt($(this).attr('data-count'), 10),
+                date: new Date($(this).attr('data-date')),
+                color: $(this).attr('fill')
+            });
         });
-        const dateContributionsNumbers = dateContributions.map(d => parseInt(d));
-        return githubService.extractDataFromContributions(pictureUrl, dateContributionsNumbers);
+        const dateContributionsNumbers = dateContributions.map(d => parseInt(d, 10));
+
+        return githubService.extractDataFromContributions(pictureUrl,
+            dateContributionsNumbers,
+            fullDateConributionInformation);
     },
 
     extractProfilePictureUrl: function() {

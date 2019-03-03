@@ -10,7 +10,7 @@ let totalCount = 1;
 const indexator = {
     start: async function(userRepository) {
         this.userRepository = userRepository;
-        await this.updateCurrentUsers(userRepository);
+        //await this.updateCurrentUsers(userRepository);
         /*while(counter < totalCount) {
             const [err, quote] = await to(this.extractUser(followingUsers[counter]));
             // eslint-disable-next-line no-console
