@@ -11,6 +11,15 @@ Github crawer (NodeJs backend) for GitAnalyzator
 - conclussiveContributions(Number of conclusive days with contributions for year or for last year),
 - maxContributionsForDay (Number of maximal contributions in a day in a year or for last year),
 - dateContributionsNumbers":(Array with contribution numbers for each day in a year)
+- fullDateConributionInformation: (Array with full info about each contribution date):
+  [
+      {
+          contributions: (Number representing count of contributions),
+          date: (Date of commiting),
+          color: (String representing the color of the date in github)
+      }
+  ]
+}
 
 ## 2. Routes
 ### Github [/github]
@@ -38,7 +47,8 @@ Github crawer (NodeJs backend) for GitAnalyzator
      "daysWithoutContributions":80,
      "conclussiveContributions":28,
      "maxContributionsForDay":91,
-     "dateContributionsNumbers":[4,91 ...]
+     "dateContributionsNumbers":[4,91 ...],
+     "fullDateConributionInformation": [{"contributions":0,"date":"2018-03-06T00:00:00.000Z","color":"#ebedf0"}, ...]
  }
 }
 
@@ -68,7 +78,8 @@ Github crawer (NodeJs backend) for GitAnalyzator
      "daysWithoutContributions":80,
      "conclussiveContributions":28,
      "maxContributionsForDay":91,
-     "dateContributionsNumbers":[4,91 ...]
+     "dateContributionsNumbers":[4,91 ...],
+     "fullDateConributionInformation": [{"contributions":0,"date":"2018-03-06T00:00:00.000Z","color":"#ebedf0"}, ...]
    }
   },
   {
@@ -79,7 +90,8 @@ Github crawer (NodeJs backend) for GitAnalyzator
       "daysWithoutContributions":191,
       "conclussiveContributions":7,
       "maxContributionsForDay":28,
-      "dateContributionsNumbers":[0,2 ...]
+      "dateContributionsNumbers":[0,2 ...],
+      "fullDateConributionInformation": [{"contributions":0,"date":"2018-03-06T00:00:00.000Z","color":"#ebedf0"}, ...]
      }
    }
 ]
