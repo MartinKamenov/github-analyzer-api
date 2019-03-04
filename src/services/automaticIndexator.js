@@ -1,3 +1,4 @@
+/*eslint-disable no-console*/
 const githubController = require('../routers/github/github-controller');
 const usersController = require('../routers/github/github-users-controller');
 const indexationConstants = require('../constants/indexationConstants');
@@ -11,13 +12,33 @@ const indexator = {
     start: async function(userRepository) {
         this.userRepository = userRepository;
         //await this.updateCurrentUsers(userRepository);
-        /*while(counter < totalCount) {
+        while(counter < totalCount) {
+            const foundUsers = await userRepository
+                .findUserByUsername(followingUsers[counter]);
+            if(foundUsers.length > 0) {
+                const foundUser = foundUsers[0];
+                foundUser.followers.forEach(follower => {
+                    follower = follower.toLowerCase();
+                    if(!followingUsers.includes(follower)) { 
+                        followingUsers.push(follower);
+                    }
+                });
+
+                totalCount = followingUsers.length;
+                
+                console.log(followingUsers[counter]);
+                console.log(++counter);
+
+                continue;
+            }
+
             const [err, quote] = await to(this.extractUser(followingUsers[counter]));
-            // eslint-disable-next-line no-console
+            totalCount = followingUsers.length;
+
             console.log(followingUsers[counter]);
             console.log(++counter);
             await this.waitSomeTime(indexationConstants.timeout);
-        }*/
+        }
         //await this.addAnalyzatorDataToUsers(userRepository);
     },
     extractUser: async function(username) {
@@ -35,7 +56,6 @@ const indexator = {
         totalCount = followingUsers.length;
         await usersController.updateUsers(this.userRepository, completeUser);
 
-        // eslint-disable-next-line no-console
         console.log(followingUsers[counter] + ' was added');
         return completeUser;
     },
@@ -46,9 +66,8 @@ const indexator = {
         for(let i = 0; i < usernames.length; i++) {
             const user = await githubController.getCompleteUser(usernames[i]);
             await usersController.updateUsers(userRepository, user);
-            // eslint-disable-next-line no-console
+
             console.log('Updated ' + user.username);
-            // eslint-disable-next-line no-console
             console.log((i + 1) + '/' + usernames.length);
         }
     },
@@ -62,7 +81,7 @@ const indexator = {
                 .analyzeProfile(user.data, user.repositories, user.followers);
             user.profileAnalyze = profileAnalyze;
             await userRepository.updateUser(user.username, user);
-            // eslint-disable-next-line no-console
+
             console.log(user.username + ' analyzed. ' + i + '/' + users.length);
         }
     },
