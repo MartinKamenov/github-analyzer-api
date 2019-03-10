@@ -29,6 +29,11 @@ const githubService = {
         return data;
     },
 
+    getUserRepositoryInformation: async function(username, repositoryName) {
+        const data = await this.fetchData(githubUrl + username + '/' + repositoryName);
+        return data;
+    },
+
     fetchData: async(url) => {
         const responce = await fetch(url);
         if(!responce.ok) {
