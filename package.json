@@ -7,13 +7,16 @@
   "version": "1.0.0",
   "dependencies": {
     "@types/body-parser": "^1.17.0",
+    "@types/chromedriver": "^2.38.0",
     "@types/eslint": "^4.16.5",
     "@types/isomorphic-fetch": "0.0.34",
     "@types/jquery": "^3.3.22",
     "@types/jsdom": "^12.2.0",
     "@types/mongodb": "^3.1.18",
+    "@types/selenium-webdriver": "^3.0.15",
     "await-to-js": "^2.1.1",
     "body-parser": "^1.18.3",
+    "chromedriver": "^2.46.0",
     "cors": "^2.8.5",
     "eslint": "^5.12.0",
     "express": "^4.16.4",
@@ -21,6 +24,7 @@
     "jquery": "^3.3.1",
     "jsdom": "^13.0.0",
     "mongodb": "^2.2.30",
-    "nodemon": "^1.18.7"
+    "nodemon": "^1.18.7",
+    "selenium-webdriver": "^4.0.0-alpha.1"
   }
 }

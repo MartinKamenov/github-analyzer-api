@@ -1,4 +1,7 @@
 const fetch = require('isomorphic-fetch');
+const webdriver = require('selenium-webdriver');
+const chrome = require('selenium-webdriver/chrome');
+const chromedriver = require('chromedriver');
 const githubUrl = 'https://github.com/';
 
 const githubService = {
@@ -34,6 +37,12 @@ const githubService = {
         return data;
     },
 
+    getUserRepositoryContributors: async function(username, repositoryName) {
+        const data = await this.fetchDataUsingTimeout(githubUrl + username + '/' + 
+        repositoryName + '/graphs/contributors');
+        return data;
+    },
+
     fetchData: async(url) => {
         const responce = await fetch(url);
         if(!responce.ok) {
@@ -41,6 +50,21 @@ const githubService = {
         }
 
         return responce.text();
+    },
+
+    fetchDataUsingTimeout: async(url) => {
+        chrome.setDefaultService(new chrome.ServiceBuilder(chromedriver.path).build());
+
+        var driver = new webdriver.Builder()
+                        .withCapabilities(webdriver.Capabilities.chrome())
+                        .build();
+        try {
+            
+            await driver.get(url);
+            return await driver.getPageSource();
+        } finally {
+            await driver.quit();
+        }
     },
     extractDataFromContributions: (pictureUrl, 
         dateContributionsNumbers, 
