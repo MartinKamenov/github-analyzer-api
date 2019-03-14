@@ -4,11 +4,6 @@ const chrome = require('selenium-webdriver/chrome');
 const chromedriver = require('chromedriver');
 const githubUrl = 'https://github.com/';
 
-
-const sleep = function(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-};
-
 const githubService = {
     getGithubAccountPage: async function(account) {
         const data = await this.fetchData(githubUrl + account);
@@ -43,8 +38,8 @@ const githubService = {
     },
 
     getUserRepositoryContributors: async function(username, repositoryName) {
-        const data = await this.fetchDataUsingTimeout(githubUrl + username + '/' + 
-        repositoryName + '/graphs/contributors');
+        const data = await this.fetchDataUsingSelenium(githubUrl + username + '/' + 
+        repositoryName + '/graphs/contributors', 5000);
         return data;
     },
 
@@ -57,7 +52,7 @@ const githubService = {
         return responce.text();
     },
 
-    fetchDataUsingTimeout: async(url) => {
+    fetchDataUsingSelenium: async function(url, timeout) {
         chrome.setDefaultService(new chrome.ServiceBuilder(chromedriver.path).build());
 
         var driver = new webdriver.Builder()
@@ -65,11 +60,15 @@ const githubService = {
                         .build();
         try {
             await driver.get(url);
-            await sleep(5000);
+            await this.sleep(timeout);
             return await driver.getPageSource();
         } finally {
             await driver.quit();
         }
+    },
+
+    sleep: function(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     },
     extractDataFromContributions: (pictureUrl, 
         dateContributionsNumbers, 
