@@ -4,6 +4,12 @@ const chrome = require('selenium-webdriver/chrome');
 const chromedriver = require('chromedriver');
 const githubUrl = 'https://github.com/';
 
+chrome.setDefaultService(new chrome.ServiceBuilder(chromedriver.path).build());
+
+let driver = new webdriver.Builder()
+                .withCapabilities(webdriver.Capabilities.chrome())
+                .build();
+
 const githubService = {
     getGithubAccountPage: async function(account) {
         const data = await this.fetchData(githubUrl + account);
@@ -52,19 +58,11 @@ const githubService = {
         return responce.text();
     },
 
-    fetchDataUsingSelenium: async function(url, timeout) {
-        chrome.setDefaultService(new chrome.ServiceBuilder(chromedriver.path).build());
-
-        var driver = new webdriver.Builder()
-                        .withCapabilities(webdriver.Capabilities.chrome())
-                        .build();
-        try {
-            await driver.get(url);
-            await this.sleep(timeout);
-            return await driver.getPageSource();
-        } finally {
-            await driver.quit();
-        }
+    fetchDataUsingSelenium: async function(url, timeout) {                        
+        await driver.get(url);
+        await this.sleep(timeout);
+        const pageSource = await driver.getPageSource();
+        return pageSource;
     },
 
     sleep: function(ms) {
