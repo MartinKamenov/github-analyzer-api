@@ -4,6 +4,11 @@ const chrome = require('selenium-webdriver/chrome');
 const chromedriver = require('chromedriver');
 const githubUrl = 'https://github.com/';
 
+
+const sleep = function(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+};
+
 const githubService = {
     getGithubAccountPage: async function(account) {
         const data = await this.fetchData(githubUrl + account);
@@ -59,8 +64,8 @@ const githubService = {
                         .withCapabilities(webdriver.Capabilities.chrome())
                         .build();
         try {
-            
             await driver.get(url);
+            await sleep(5000);
             return await driver.getPageSource();
         } finally {
             await driver.quit();

@@ -14,16 +14,14 @@ const controller = {
     extractRepositoryInformation: function(data) {
         $('body').empty();
         $('body').append(data);
-        console.log(data.search(/martinkamenov/i));
 
         const contributors = [];
-        const contributorsElements = $('.d-block');
-        // contributorsElements.map(function() {
-        //     debugger;
-        //     const name = $(this).text();
-        //     followers.push(name);
-        // });
-        return data;
+        const contributorsElements = $('.d-block.Box');
+        contributorsElements.map(function() {
+            const name = $(this).text();
+            contributors.push(name);
+        });
+        return contributors;
     }
 };
 
