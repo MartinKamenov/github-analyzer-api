@@ -6,8 +6,13 @@ const githubUrl = 'https://github.com/';
 
 chrome.setDefaultService(new chrome.ServiceBuilder(chromedriver.path).build());
 
+const screen = {
+    width: 640,
+    height: 480
+};
 let driver = new webdriver.Builder()
                 .withCapabilities(webdriver.Capabilities.chrome())
+                .setChromeOptions(new chrome.Options().headless().windowSize(screen))
                 .build();
 
 const githubService = {
