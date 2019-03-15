@@ -8,8 +8,31 @@ const githubService = require('../../services/githubService');
 
 const controller = {
     getRepositoryInformation: async function(username, repositoryName) {
-        const data = await githubService.getUserRepositoryContributors(username, repositoryName);
-        return this.extractContributiorsInformation(data);
+        const contributorsData = await githubService.getUserRepositoryContributors(username, repositoryName);
+        const repoData = await githubService.getRepositoryInformation(username, repositoryName);
+        const contributors = this.extractContributiorsInformation(contributorsData);
+        const languages = this.extractLanguagesForRepo(repoData);
+        return {username, repositoryName, contributors, languages};
+    },
+
+    extractLanguagesForRepo: function(data) {
+        $('body').empty();
+        $('body').append(data);
+
+        const languageElements = $('.language-color');
+        let languages = [];
+        languageElements.map(function() {
+            const ariaLabel = $(this).attr('aria-label');
+            if(!ariaLabel) {
+                return null;
+            }
+            const info = ariaLabel.split(' ');
+            languages.push({
+                language: info[0], 
+                percent: parseFloat(info[1].replace('%', ''))});
+        });
+
+        return languages;
     },
     extractContributiorsInformation: function(data) {
         $('body').empty();

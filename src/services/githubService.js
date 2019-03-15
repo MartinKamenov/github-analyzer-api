@@ -48,6 +48,12 @@ const githubService = {
         return data;
     },
 
+    getRepositoryInformation: async function(username, repositoryName) {
+        const data = await this.fetchData(githubUrl + username + '/' + 
+        repositoryName);
+        return data;
+    },
+
     getUserRepositoryContributors: async function(username, repositoryName) {
         const data = await this.fetchDataUsingSelenium(githubUrl + username + '/' + 
         repositoryName + '/graphs/contributors', 5000);
