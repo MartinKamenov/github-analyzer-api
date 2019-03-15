@@ -4,15 +4,27 @@ const { window } = new JSDOM();
 const { document } = (new JSDOM('')).window;
 global.document = document;
 const $ = require('jquery')(window);
+const Repository = require('../../models/Repository');
 const githubService = require('../../services/githubService');
 
 const controller = {
-    getRepositoryInformation: async function(username, repositoryName) {
+    getRepositoryInformation: async function(username, repositoryName, repoRepository) {
+        const foundRepos = await repoRepository
+            .findRepositoryByUsernameAndRepositoryName(username, repositoryName);
+
+        if(foundRepos.length > 0) {
+            return foundRepos[0];
+        }
+        
         const contributorsData = await githubService.getUserRepositoryContributors(username, repositoryName);
         const repoData = await githubService.getRepositoryInformation(username, repositoryName);
         const contributors = this.extractContributiorsInformation(contributorsData);
         const languages = this.extractLanguagesForRepo(repoData);
-        return {username, repositoryName, contributors, languages};
+
+        const newRepo = new Repository(username, repositoryName, contributors, languages);
+        repoRepository.addRepository(newRepo);
+
+        return newRepo;
     },
 
     extractLanguagesForRepo: function(data) {

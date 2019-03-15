@@ -5,7 +5,7 @@ const repositoriesController = require('./github-repositories-controller');
 const responceStatus = require('../../constants/responceStatus');
 const errorConstants = require('../../constants/errorConstants');
 
-const attach = (app, userRepository) => {
+const attach = (app, userRepository, repoRepository) => {
     const router = Router()
         .get('/user/:username', async (req, res) => {
             let username = req.params.username;
@@ -73,10 +73,13 @@ const attach = (app, userRepository) => {
             res.status(responceStatus.successStatus).send(result);
         })
         .get('/repositories/:username/:repositoryName', async(req, res) => {
-            const username = req.params.username;
-            const repositoryName = req.params.repositoryName;
+            let username = req.params.username;
+            let repositoryName = req.params.repositoryName;
+            username = username.toLowerCase();
+            repositoryName = repositoryName.toLowerCase();
 
-            let result = await repositoriesController.getRepositoryInformation(username, repositoryName);
+            let result = await repositoriesController
+                .getRepositoryInformation(username, repositoryName, repoRepository);
 
             res.status(responceStatus.successStatus).send(result);
         })
