@@ -48,11 +48,15 @@ const controller = {
                 name = nameElement[1].text;
             }
 
+            const imageElement = $(this).find('.avatar');
+            const imageSrc = imageElement.attr('src');
+
             information = information.replace(/#[0-9]/g, '').replace(/--.*/, '').replace(name, '');
 
             let match = '';
             const record = {};
             record.name = name;
+            record.imageSrc = imageSrc;
             const keys = ['contributions', 'additions', 'deletions'];
             let keyIndex = 0;
             information += '.';
