@@ -56,7 +56,7 @@ const githubService = {
 
     getUserRepositoryContributors: async function(username, repositoryName) {
         const data = await this.fetchDataUsingSelenium(githubUrl + username + '/' + 
-        repositoryName + '/graphs/contributors', 5000);
+        repositoryName + '/graphs/contributors', 2000);
         return data;
     },
 
