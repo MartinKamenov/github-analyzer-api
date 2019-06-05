@@ -24,7 +24,7 @@ const start = (setupConfiguration) => {
     app.listen(setupConfiguration.port,
         setupConfiguration.startCallback());
 
-    automaticIndexator.start(userRepository);
+    //automaticIndexator.start(userRepository);
 };
 
 start(setupObject);
