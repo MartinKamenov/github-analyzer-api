@@ -18,6 +18,10 @@ class UserRepository {
     updateUser(username, newUser) {
         return this.database.update(this.collectionName, {username}, newUser);
     }
+
+    deleteUser(filter) {
+        return this.database.delete(collection, filter);
+    }
 }
 
 module.exports = UserRepository;
