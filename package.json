@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "nodemon ./src/server.js",
+    "start": "node ./src/server.js",
+    "dev": "nodemon ./src/server.js",
     "lint": "eslint ./src"
   },
   "name": "webcrawer",
