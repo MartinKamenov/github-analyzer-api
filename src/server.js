@@ -32,7 +32,8 @@ const start = (setupConfiguration) => {
 
 const copyDb = async () => {
     const originalUsers = await originalUserRepository.getAllUsers();
-    const users = await userRepository.getAllUsers();
+    let users = await userRepository.getAllUsers();
+    users = users.reverse();
     let userIndex = 1;
     users.forEach(async (user) => {
         if(originalUsers.find((u) => u.username === user.username)) {
@@ -40,18 +41,7 @@ const copyDb = async () => {
         }
         await originalUserRepository.addUser(user);
         console.log(user.username + 'was added ' + (userIndex++) + '/' + users.length);
-    });
-
-    let repoIndex = 1;
-    const originalRepos = await originalRepoRepository.getAllRepositories();
-    const repos = await repoRepository.getAllRepositories();
-    repos.forEach(async (repo) => {
-        if(originalRepos.find((r) => r.username === repo.username && r.repositoryName === repo.repositoryName)) {
-            return;
-        }
-        await originalRepoRepository.addRepository(repo);
-        console.log(repo + 'was added ' + (repoIndex++) + '/' + repos.length);
-    });
+    });    
 };
 
 start(setupObject);
