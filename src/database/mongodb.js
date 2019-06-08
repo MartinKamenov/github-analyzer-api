@@ -85,6 +85,22 @@ class Database {
         });
     }
 
+    findByParams(collection, filter, paging, sorting) {
+        return new Promise((resolve, reject) => {
+            this.connection
+                .then((db) => {
+                    const findCollection = db.collection(collection)
+                        .sort(sorting)
+                        .find(filter, {}, paging)
+                        .toArray();
+                    resolve(findCollection);
+                })
+                .catch((ex) => {
+                    reject(ex);
+                });
+        });
+    }
+
     findById(collection, id) {
         const objectId = new ObjectID(id);
         return new Promise((resolve, reject) => {
