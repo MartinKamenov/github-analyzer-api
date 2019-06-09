@@ -80,13 +80,8 @@ const usersController = {
             sortBy = 'totalContributionsCount';
         }
 
-        let users = [];
-
-        if(!memorizing['allUsers'])
-        {
-            users = await userRepository
-                .findUsersByParams({}, {skip: 0, limit: 10}, {[sortBy]: -1});
-        }
+        let users = await userRepository
+            .findUsersByParams({}, {skip: 0, limit: 10}, {[sortBy]: -1});
         
         users = filtering.filterCollection(users, query);
         const pagingObject = paging.getPagingOptions(users, page, pageSize);
