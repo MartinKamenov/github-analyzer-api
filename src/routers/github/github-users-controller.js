@@ -80,52 +80,16 @@ const usersController = {
             sortBy = 'totalContributionsCount';
         }
 
-        let programmingLanguage = query.language;
-
         let users = [];
 
         if(!memorizing['allUsers'])
         {
-            memorizing['allUsers'] = await userRepository
-                .findUsersByParams({}, {skip: 0, limit: 10}, {});
+            users = await userRepository
+                .findUsersByParams({}, {skip: 0, limit: 10}, {[sortBy]: -1});
         }
         
-        users = memorizing['allUsers'];
         users = filtering.filterCollection(users, query);
-        if(programmingLanguage) {
-            const programmingLanguages = programmingLanguage.split(filteringSeparatorConstant);
-            users = users.filter((user) => {
-                const profileAnalyze = user.profileAnalyze;
-                if(!profileAnalyze) {
-                    return false;
-                }
-
-                const repositoriesAnalyze = profileAnalyze.repositoriesAnalyze;
-                if(!repositoriesAnalyze || repositoriesAnalyze.length === 0) {
-                    return false;
-                }
-
-                const userMainLanguageObject = repositoriesAnalyze[0];
-                if(!userMainLanguageObject) {
-                    return false;
-                }
-                const userMainLanguage = userMainLanguageObject.repo;
-                if(programmingLanguages.includes(userMainLanguage)) {
-                    return true;
-                }
-
-                return false;
-            });
-        }
-        if(sortBy === 'username') {
-            users = sorting.sortAscendingCollectionByKey(users, sortBy);
-        } else if(sortBy === 'daysWithoutContributions'){
-            users = sorting.sortAscendingCollectionByKey(users, 'data', sortBy);
-        } else {
-            users = sorting.sortDescendingCollectionByKey(users, 'data', sortBy);
-        }
         const pagingObject = paging.getPagingOptions(users, page, pageSize);
-        users = paging.getCollectionPage(users, page, pageSize);
 
         const returnObject = {
             users,
