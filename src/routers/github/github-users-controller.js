@@ -86,7 +86,8 @@ const usersController = {
 
         if(!memorizing['allUsers'])
         {
-            memorizing['allUsers'] = await userRepository.getAllUsers();
+            memorizing['allUsers'] = await userRepository
+                .findUsersByParams({}, {skip: 0, limit: 10}, {});
         }
         
         users = memorizing['allUsers'];

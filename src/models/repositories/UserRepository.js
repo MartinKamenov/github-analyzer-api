@@ -19,8 +19,12 @@ class UserRepository {
         return this.database.update(this.collectionName, {username}, newUser);
     }
 
+    findUsersByParams(filter, paging, sorting) {
+        return this.database.findByParams(this.collectionName, filter, paging, sorting);
+    }
+
     deleteUser(filter) {
-        return this.database.delete(collection, filter);
+        return this.database.delete(this.collectionName, filter);
     }
 }
 

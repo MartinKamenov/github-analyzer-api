@@ -84,7 +84,7 @@ const attach = (app, userRepository, repoRepository) => {
             res.status(responceStatus.successStatus).send(result);
         })
         .get('/users', async (req, res) => {
-            const users = await userController.getAllUsers(req, userRepository);
+            const users = await userController.getUsersViaQuery(req, userRepository);
 
             res.status(responceStatus.successStatus).send(users);
         })

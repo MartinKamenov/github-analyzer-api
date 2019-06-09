@@ -90,8 +90,10 @@ class Database {
             this.connection
                 .then((db) => {
                     const findCollection = db.collection(collection)
+                        .find(filter)
                         .sort(sorting)
-                        .find(filter, {}, paging)
+                        .skip(paging.skip)
+                        .limit(paging.limit)
                         .toArray();
                     resolve(findCollection);
                 })
