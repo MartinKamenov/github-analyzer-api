@@ -23,7 +23,7 @@
     "express": "^4.16.4",
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.3.1",
-    "jsdom": "^13.0.0",
+    "jsdom": "^16.5.0",
     "mongodb": "^2.2.30",
     "nodemon": "^1.18.7",
     "selenium-webdriver": "^4.0.0-alpha.1"
